@@ -1,31 +1,5 @@
 from openpyxl import load_workbook
-import string
 from openpyxl.styles import Font
-
-
-def write_n_rows(ws, last_line, image_info):
-    alphabet = string.ascii_uppercase
-    for i in range(len(image_info)):
-        ws[f'{alphabet[i]}{last_line + 1}'] = image_info[alphabet[i]]
-
-
-def write_to_file(path_to_file, image_info, last_line, report_date):
-    wb = load_workbook(path_to_file)
-    ws = wb[report_date]
-    write_n_rows(ws, last_line + 1, image_info)
-    wb.save(path_to_file)
-
-
-def write_xlsx_single_sheet(path_to_file, image_info, photographer):
-    wb = load_workbook(path_to_file)
-    if photographer not in wb.sheetnames:
-        ws = wb.create_sheet(photographer)
-    else:
-        ws = wb[photographer]
-    # ws = wb[photographer]
-    last_line = ws.max_row
-    write_n_rows(ws, last_line, image_info)
-    wb.save(path_to_file)
 
 
 def write_rename_voc(path_to_file, image_info, shoot_id):
@@ -48,10 +22,3 @@ def write_rename_voc(path_to_file, image_info, shoot_id):
             ws.cell(row=last_line, column=2).font = Font(color="FF0000")
             ws.cell(row=last_line, column=3).font = Font(color="FF0000")
     wb.save(path_to_file)
-            
-            
-
-
-
-
-
