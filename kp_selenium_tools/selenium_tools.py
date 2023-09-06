@@ -2,11 +2,6 @@ from selenium.webdriver.common.by import By
 from kp_selenium_tools.make_page_link import make_history_link
 
 
-red = '\033[91m'
-green = '\33[32m'
-end = '\033[0m'
-
-
 def open_page(page_link, browser):
     browser.get(page_link)
 
