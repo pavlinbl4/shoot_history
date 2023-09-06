@@ -7,24 +7,30 @@ from kp_selenium_tools.tk_tools import select_folder_via_gui
 from kp_selenium_tools.write_xlsx import write_rename_voc
 from shoot_history.scrap_html import scrap_html
 
-path_to_file = '/Users/evgeniy/Documents/Kommersant/shoot_rename/shoot_story.xlsx'
 
-shoot_id = clipboard_or_input()
+def main():
+    path_to_file = '/Users/evgeniy/Documents/Kommersant/shoot_rename/shoot_story.xlsx'
 
-path = select_folder_via_gui()
+    shoot_id = clipboard_or_input()
 
-driver = autorization()
+    path = select_folder_via_gui()
 
-page_link = make_page_link(shoot_id)
+    driver = autorization()
 
-open_page(page_link, driver)
+    page_link = make_page_link(shoot_id)
 
-full_history_page_source = work_to_history(driver)  # получаю данные со страницы истории
+    open_page(page_link, driver)
 
-save_html_page(full_history_page_source)  # временно сохраняю страницу
+    full_history_page_source = work_to_history(driver)  # получаю данные со страницы истории
 
-file_renames = scrap_html(read_html(), path)  # path to folder with images
+    save_html_page(full_history_page_source)  # временно сохраняю страницу
 
-write_rename_voc(path_to_file, file_renames, shoot_id)
+    file_renames = scrap_html(read_html(), path)  # path to folder with images
 
-end_selenium(driver)
+    write_rename_voc(path_to_file, file_renames, shoot_id)
+
+    end_selenium(driver)
+
+
+if __name__ == '__main__':
+    main()
