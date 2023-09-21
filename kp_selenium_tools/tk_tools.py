@@ -2,12 +2,12 @@ from tkinter import filedialog, messagebox, Tk
 
 
 
-def select_folder_via_gui():
+def select_folder_via_gui(initialdir):
     root = Tk()
     root.withdraw()
 
     choose_folder = filedialog.askdirectory(
-        initialdir='/Users/evgeniy/Pictures/2023',
+        initialdir=initialdir,
         title="Select your Source directory")
     if len(choose_folder) > 0:
         return choose_folder
@@ -18,4 +18,4 @@ def select_folder_via_gui():
 
 if __name__ == '__main__':
     # display_info("NO KEYWORDS FOR WORK")
-    select_folder_via_gui()
+    select_folder_via_gui('/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency')
