@@ -9,6 +9,14 @@ def get_file_extension(path_to_file: str) -> str:
     return extension  # string with file extension
 
 
+def get_file_name_no_extension(file_name: str):
+    rg_pattern = r'[^.]+(?=\.)'
+    # didn't work with hidden files
+    file_name_no_extension = re.findall(rg_pattern, file_name)
+    if len(file_name_no_extension) != 0:
+        return file_name_no_extension[0]
+
+
 
 def extract_only_words(text_string):
     if type(text_string) is list:
@@ -92,9 +100,14 @@ def full_shoot_html_link(shoot_id: str, page: int) -> str:
 
 if __name__ == '__main__':
     assert type(full_shoot_html_link('KSP_017605', 0)) == str
-    print(f"{'replace_to_comma'}: {replace_to_comma('Санкт - Петербург, Петрикирхе;архитектура;религия,религия ')}")
-    print(
-        f"{'keywords_opimization'}: "
-        f"{keywords_opimization('Санкт-Петербург, Петрикирхе;архитектура;религия, архитектура')}")
+    # print(f"{'replace_to_comma'}: {replace_to_comma('Санкт - Петербург, Петрикирхе;архитектура;религия,религия ')}")
+    # print(
+    #     f"{'keywords_opimization'}: "
+    #     f"{keywords_opimization('Санкт-Петербург, Петрикирхе;архитектура;религия, архитектура')}")
+    #
+    # print(full_shoot_html_link('KSP_017945', 1))
 
-    print(full_shoot_html_link('KSP_017945', 1))
+    assert type(get_file_name_no_extension('KSP_017547_00011_1h.jpg')) == str
+    assert len(get_file_name_no_extension('KSP_017547_00011_1h.jpg')) != 0
+    assert get_file_name_no_extension('.DS_store') is None
+    assert get_file_name_no_extension('KSP_017547_00011_1h.jpg') == 'KSP_017547_00011_1h'
