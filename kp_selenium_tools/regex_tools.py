@@ -4,9 +4,10 @@ from kp_selenium_tools.bad_words_job import get_bad_words_from_txt_file
 
 
 def get_file_extension(path_to_file: str) -> str:
-    re_pattern = r'(?<=\.)[1A-Za-z]{3,4}'
+    re_pattern = r'(?<=\.)[1A-Za-z_]{3,8}'
     extension = re.findall(re_pattern, path_to_file)[0]
     return extension  # string with file extension
+
 
 
 def extract_only_words(text_string):
@@ -66,6 +67,7 @@ def make_text_edit_link(link):
     # image_edit_link = f'https://image.kommersant.ru/photo/archive/ViewPhoto.asp?ID={inner_id}&Lang=1&L=1'
     image_edit_link = f'https://image.kommersant.ru/photo/archive/adm/AddPhotoStep3.asp?ID={inner_id}&CloseForm=1'
     return image_edit_link, image_id, inner_id
+
 
 def make_preview_photo_link(link):
     inner_id = re.findall(r'(?<=id=)\d+', link)[0]
