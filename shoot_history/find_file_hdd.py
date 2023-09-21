@@ -12,11 +12,13 @@ def find_no_ext(file_name, path):  # this will match a file_name
     return result  # возвращает список с путем к оригинальному файлу
 
 
-def action_with_image_files_in_directory(path):
+def action_with_image_files_in_directory(path, action_with_files):
     for root, dirs, files in os.walk(path):
         for file in files:
             if get_file_extension(file).lower() in ['jpg', 'jpeg']:
                 # you can add any function to work with file
+                action_with_files(f"{root}/{file}")
+
                 print(f"{root}/{file}")
 
 
