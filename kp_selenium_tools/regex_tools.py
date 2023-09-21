@@ -23,6 +23,13 @@ def extract_words_no_digits(text_string):
     pattern = r'[А-Яа-яA-Za-z]+\-*[А-Яа-яA-Za-z]+'
     return re.findall(pattern, text_string)
 
+def modify_caption(image_metadata):
+    caption = image_metadata['XMP:Description'].replace('\n', ' ')
+    pattern = r'(?<=RU ).+(?= Фото:)'
+    if len(re.findall(pattern, caption)) != 0:
+        image_metadata['XMP:Description'] = re.findall(pattern, caption)[0]
+    return image_metadata
+
 
 def keywords_opimization(string):
     words_to_remove = get_bad_words_from_txt_file('/Users/evgeniy/Documents/keywords/bad_words.txt')
