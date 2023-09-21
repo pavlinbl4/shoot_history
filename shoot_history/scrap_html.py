@@ -34,10 +34,10 @@ def scrap_html(page_link, path):
         xxx = trs_pub[i].find(class_="user-col").find_next('td').text
         if 'Добавлен:' in xxx:
             photo_id = trs_pub[i].find(class_="user-col").find_next('td').text[10:-2]  # id added image
-            original_file_name = check_original_file_name(file_renames[photo_id][0], my_date_format)
+            original_file_name = check_original_file_name(file_renames[photo_id][0], my_date_format)   # file name no extension
             print(f"for file {photo_id} original filename is  {original_file_name}")
             file_renames[photo_id].append("ADDED")
-            way_to_file = find_no_ext(original_file_name, path)  # function to find file on HDD
+            way_to_file = find_no_ext(original_file_name, path)  # function to find file on HDD, path - to directory
             if len(way_to_file) > 0:  # if file wasn't found
                 change_color_class(way_to_file[0], photo_id, color='Red')
             else:
