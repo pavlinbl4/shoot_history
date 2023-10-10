@@ -111,3 +111,5 @@ if __name__ == '__main__':
     assert len(get_file_name_no_extension('KSP_017547_00011_1h.jpg')) != 0
     assert get_file_name_no_extension('.DS_store') is None
     assert get_file_name_no_extension('KSP_017547_00011_1h.jpg') == 'KSP_017547_00011_1h'
+    assert get_file_extension('2023-02-28_20-23-08_report.pdf') == 'pdf'
+    assert get_file_extension('.DS_store') == 'DS_store'
