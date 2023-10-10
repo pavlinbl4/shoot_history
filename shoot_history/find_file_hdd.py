@@ -7,6 +7,8 @@ def find_no_ext(file_name, path):  # this will match a file_name
     result = []
     for root, dirs, files in os.walk(path):
         for file in files:
+            # file_extension = get_file_extension(file)
+            # if file_extension in ('ORF', 'DNG', 'dng', 'NEF', 'nef', 'orf'):
             if get_file_name_no_extension(file) == file_name:
                 result.append(os.path.join(root, file))
     return result  # возвращает список с путем к оригинальному файлу
@@ -15,7 +17,7 @@ def find_no_ext(file_name, path):  # this will match a file_name
 def action_with_image_files_in_directory(path, action_with_files):
     for root, dirs, files in os.walk(path):
         for file in files:
-            if get_file_extension(file).lower() in ['jpg', 'jpeg']:
+            if get_file_extension(file).lower() in ('jpg', 'jpeg', 'ORF', 'DNG', 'dng', 'NEF', 'nef', 'orf'):
                 # you can add any function to work with file
                 action_with_files(f"{root}/{file}")
 
