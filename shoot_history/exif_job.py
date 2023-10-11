@@ -8,6 +8,7 @@ def change_color_class(file, image_title, color):
         et.set_tags(
             [file],
             tags={"XMP:Title": image_title,
+                  "IPTC:ObjectName": image_title,
                   'XMP:Label': color,
                   'XMP:Creator': 'Eugene Pavlenko'},
             params=["-P", "-overwrite_original"]
@@ -66,11 +67,17 @@ def clear_image_metadata_from_kp_info(path_to_image_file):
 
 
 if __name__ == '__main__':
-    clear_image_metadata_from_kp_info(
-        '/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency/KSP_017775/KSP_017775_00025_1h.jpg')
 
-    m_date = read_image_metadate(
-        '/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency/KSP_017775/KSP_017775_00025_1h.jpg')
+    # test_ol_image = '/Users/evgeniy/Pictures/test_images/20231006EPAV2225.ORF'
+    test_ol_image = '/Users/evgeniy/Pictures/test_images/20231006EPAV3281.ORF'
+    # write_data_to_photo_iptc_tools(test_ol_image)
+    change_color_class(test_ol_image, 'exiftool', "Red")
 
-    for k, v in m_date.items():
-        print(k, v)
+    # clear_image_metadata_from_kp_info(
+    #     '/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency/KSP_017775/KSP_017775_00025_1h.jpg')
+    #
+    # m_date = read_image_metadate(
+    #     '/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency/KSP_017775/KSP_017775_00025_1h.jpg')
+    #
+    # for k, v in m_date.items():
+    #     print(k, v)
