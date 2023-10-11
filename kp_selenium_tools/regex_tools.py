@@ -4,7 +4,8 @@ from kp_selenium_tools.bad_words_job import get_bad_words_from_txt_file
 
 
 def get_file_extension(path_to_file: str) -> str:
-    re_pattern = r'(?<=\.)[1A-Za-z_]{3,8}'
+    # re_pattern = r'(?<=\.)[1A-Za-z_]{3,8}'  # work correctly with only one dot in filename
+    re_pattern = r'(?<=\.)[^.]+$'
     extension = re.findall(re_pattern, path_to_file)[0]
     return extension  # string with file extension
 
@@ -113,3 +114,5 @@ if __name__ == '__main__':
     assert get_file_name_no_extension('KSP_017547_00011_1h.jpg') == 'KSP_017547_00011_1h'
     assert get_file_extension('2023-02-28_20-23-08_report.pdf') == 'pdf'
     assert get_file_extension('.DS_store') == 'DS_store'
+    assert get_file_extension('20231006EPAV2441.ORF.dop')  == 'dop'
+
