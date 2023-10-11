@@ -13,7 +13,7 @@ def main():
 
     shoot_id = clipboard_or_input()
 
-    path = select_folder_via_gui()
+    path = select_folder_via_gui('/Users/evgeniy/Pictures/')
 
     driver = autorization()
 
