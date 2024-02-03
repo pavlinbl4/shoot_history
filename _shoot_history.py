@@ -6,14 +6,15 @@ from kp_selenium_tools.selenium_tools import open_page, work_to_history, end_sel
 from kp_selenium_tools.tk_tools import select_folder_via_gui
 from kp_selenium_tools.write_xlsx import write_rename_voc
 from shoot_history.scrap_html import scrap_html
+from pathlib import Path
 
 
 def main():
-    path_to_file = '/Users/evgeniy/Documents/Kommersant/shoot_rename/shoot_story.xlsx'
+    path_to_file = f'{Path.home()}/Documents/Kommersant/shoot_rename/shoot_story.xlsx'
 
     shoot_id = clipboard_or_input()
 
-    path = select_folder_via_gui('/Users/evgeniy/Pictures/2024')
+    path = select_folder_via_gui(f'{Path.home()}/Pictures/2024')
 
     driver = AuthorizationHandler().authorize()
 
