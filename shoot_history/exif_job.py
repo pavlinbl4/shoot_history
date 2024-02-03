@@ -1,5 +1,5 @@
 import exiftool
-
+from icecream import ic
 from kp_selenium_tools.regex_tools import modify_caption
 
 
@@ -69,15 +69,8 @@ def clear_image_metadata_from_kp_info(path_to_image_file):
 if __name__ == '__main__':
 
     # test_ol_image = '/Users/evgeniy/Pictures/test_images/20231006EPAV2225.ORF'
-    test_ol_image = '/Users/evgeniy/Pictures/test_images/20231006EPAV3281.ORF'
+    test_ol_image = '/Users/evgeniy/Pictures/2024/01_January/20240113_Пожар на складе Wildberries/20240113PEV_2551.NEF'
     # write_data_to_photo_iptc_tools(test_ol_image)
-    change_color_class(test_ol_image, 'exiftool', "Red")
+    # change_color_class(test_ol_image, 'exiftool', "Red")
+    ic(read_image_metadate(test_ol_image))
 
-    # clear_image_metadata_from_kp_info(
-    #     '/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency/KSP_017775/KSP_017775_00025_1h.jpg')
-    #
-    # m_date = read_image_metadate(
-    #     '/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency/KSP_017775/KSP_017775_00025_1h.jpg')
-    #
-    # for k, v in m_date.items():
-    #     print(k, v)
