@@ -10,11 +10,11 @@ from pathlib import Path
 
 
 def main():
-    path_to_file = f'{Path.home()}/Documents/Kommersant/shoot_rename/shoot_story.xlsx'
+    path_to_file = f'{Path().home()}/Documents/Kommersant/shoot_rename/shoot_story.xlsx'
 
     shoot_id = clipboard_or_input()
 
-    path = select_folder_via_gui(f'{Path.home()}/Pictures/2024')
+    path = select_folder_via_gui('/Users/evgeniy/Pictures/2024')
 
     driver = AuthorizationHandler().authorize()
 
