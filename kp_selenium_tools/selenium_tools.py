@@ -13,6 +13,10 @@ def work_to_history(driver):
     full_link = make_history_link(first_link)  # получаю ссылку на страницу с подробной историей
     driver.get(full_link)  # открывается новая вкладка, нужно перейти на нее
     driver.switch_to.window(driver.window_handles[0])
+
+    with open(f'tests/test_files/test_file.html', 'w', encoding='utf-8') as file:
+        file.write(driver.page_source)
+
     return driver.page_source
 
 

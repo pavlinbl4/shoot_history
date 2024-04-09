@@ -3,7 +3,7 @@ from icecream import ic
 from kp_selenium_tools.regex_tools import modify_caption
 
 
-def change_color_class(file, image_title, color):
+def change_color_class(file, color, image_title=None, ):
     with exiftool.ExifToolHelper() as et:
         et.set_tags(
             [file],
@@ -13,6 +13,7 @@ def change_color_class(file, image_title, color):
                   'XMP:Creator': 'Eugene Pavlenko'},
             params=["-P", "-overwrite_original"]
         )
+    print(f"metadata was changed to image {file}")
 
 
 def write_data_to_photo_iptc_tools(file):
@@ -50,6 +51,7 @@ def write_edited_tags(xmp_tags):
                     params=["-P", "-overwrite_original"])
 
 
+# get all image metadata from file
 def read_image_metadate(path_to_image_file):
     with exiftool.ExifToolHelper() as et:
         return et.get_metadata(path_to_image_file)[0]
@@ -66,11 +68,22 @@ def clear_image_metadata_from_kp_info(path_to_image_file):
     write_edited_tags(image_metadata)
 
 
+def read_image_tags(path_to_image_file):
+    with exiftool.ExifToolHelper() as et:
+        return et.get_tags(path_to_image_file, tags=['EXIF:Artist', 'XMP:Label'])[0]
+
+def read_image_run(path_to_image_file):
+    with exiftool.ExifToolHelper() as et:
+
+        return et.encoding, et.check_tag_names, et.last_status, et.common_args
+
+
 if __name__ == '__main__':
-
     # test_ol_image = '/Users/evgeniy/Pictures/test_images/20231006EPAV2225.ORF'
-    test_ol_image = '/Users/evgeniy/Pictures/2024/01_January/20240113_Пожар на складе Wildberries/20240113PEV_2551.NEF'
+    test_ol_image = "/Users/evgenii/PycharmProjects/shoot_history/tests/test_files/20231214EPAV9435.jpg"
+    # test_ol_image = ".test_files/20231214EPAV9435.jpg"
     # write_data_to_photo_iptc_tools(test_ol_image)
-    # change_color_class(test_ol_image, 'exiftool', "Red")
-    ic(read_image_metadate(test_ol_image))
-
+    change_color_class(test_ol_image, "Red", image_title=None)
+    # ic(read_image_metadate(test_ol_image))
+    # print(read_image_metadate('tests/test_files/20231214EPAV9435.jpg'))
+    # ic(read_image_run(test_ol_image))
