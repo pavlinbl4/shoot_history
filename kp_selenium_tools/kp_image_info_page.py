@@ -7,9 +7,7 @@ available when you press the button with the hammer and wrench icon.
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
-from kp_selenium_tools.authorization import autorization
-from kp_selenium_tools.regex_tools import keywords_opimization
-from kp_selenium_tools.save_info_in_csv import write_kp_files_keywords
+
 
 
 def add_new_keywords(concatinated_keywords):

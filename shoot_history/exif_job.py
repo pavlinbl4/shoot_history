@@ -3,6 +3,8 @@ from icecream import ic
 from kp_selenium_tools.regex_tools import modify_caption
 
 
+
+
 def change_color_class(file, image_title, color):
     with exiftool.ExifToolHelper() as et:
         et.set_tags(
@@ -13,7 +15,7 @@ def change_color_class(file, image_title, color):
                   'XMP:Creator': 'Eugene Pavlenko'},
             params=["-P", "-overwrite_original"]
         )
-
+    print(f"metadata wsa changed to image {file}")
 
 def write_data_to_photo_iptc_tools(file):
     with exiftool.ExifToolHelper() as et:
@@ -69,8 +71,8 @@ def clear_image_metadata_from_kp_info(path_to_image_file):
 if __name__ == '__main__':
 
     # test_ol_image = '/Users/evgeniy/Pictures/test_images/20231006EPAV2225.ORF'
-    test_ol_image = '/Users/evgeniy/Pictures/2024/01_January/20240113_Пожар на складе Wildberries/20240113PEV_2551.NEF'
+    test_ol_image = "/Volumes/big4photo-4/selenium_downloads/keyword_['витрина']/KSP_013068_02457_1h.jpg"
     # write_data_to_photo_iptc_tools(test_ol_image)
-    # change_color_class(test_ol_image, 'exiftool', "Red")
+    change_color_class(test_ol_image, 'exiftool', "Red")
     ic(read_image_metadate(test_ol_image))
 
