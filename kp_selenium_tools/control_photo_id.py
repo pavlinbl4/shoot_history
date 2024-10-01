@@ -1,3 +1,5 @@
+# easy tool to check corrct photo id
+
 import re
 from colorama import Fore
 
@@ -13,5 +15,4 @@ def control_id(photo_id):
     return control_id(photo_id)
 
 
-if __name__ == '__main__':
-    control_id('KSP')
+
