@@ -24,10 +24,17 @@ def scrap_html(page_link: str):
     trs = soup.find('table', id='ProcessingGrid').find('tbody').find_all('tr')
     logger.info(len(trs))
     trs_pub = soup.find('table', id='HistoryLogGrid').find('tbody').find_all('tr')
-    # получаю дату передачи съемки
-    komm_date = soup.find('tr', class_="row-alternating").find('td', class_="date-col").text[:10].split(
+
+
+    # получаю дату передачи съемки из последней строки таблицы
+    komm_dates = soup.find_all('tr', class_="row-alternating")
+    komm_date = komm_dates[-1].find('td', class_="date-col").text[:10].split(
         '.')
+
+
+
     my_date_format: str = komm_date[2] + komm_date[1] + komm_date[0]
+    print(f'{my_date_format = }')
     return my_date_format, trs, trs_pub
 
 
