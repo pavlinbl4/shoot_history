@@ -51,10 +51,13 @@ def find_added_to_kp_images(trs_pub, uploaded_images_dict, my_date_format, path)
             photo_id = trs_pub[i].find(class_="user-col").find_next('td').text[10:-2]  # id added image
             # logger.info(f'{photo_id = }')
 
-            # проверяю - файл переименован по моим правилам или отправлен с камеры
-            original_file_name = check_original_file_name(uploaded_images_dict[photo_id][0],
+            # проверяю - файл переименован по моим правилам или отправлен с камеры,
+            # если отправлен с камеры возвращается в словаре меняю имя загруженного файла
+            uploaded_images_dict = check_original_file_name(uploaded_images_dict, photo_id,
                                                           my_date_format)  # file name no extension
-            print(f"for file {photo_id} original filename is  {original_file_name}")
+
+            print(f"for file {photo_id} original filename is  {uploaded_images_dict[photo_id][0]}")
+
             uploaded_images_dict[photo_id].append("ADDED")
             added_photo_id_list.append(photo_id)
     logger.info(f'{added_photo_id_list = }')
@@ -65,15 +68,19 @@ def find_added_to_kp_images(trs_pub, uploaded_images_dict, my_date_format, path)
     return added_photo_id_list
 
 
-def check_original_file_name(original_file_name: str,
-                             my_date_format: str) -> str:
+def check_original_file_name(uploaded_images_dict, photo_id: str,
+                             my_date_format: str) -> dict:
     # проверяю, был ли файл переименован по моим правилам или отправлен сразу с камеры
+    original_file_name = uploaded_images_dict[photo_id][0]
     if original_file_name.startswith("E") or original_file_name.startswith("P"):
         print(
             f'{Fore.MAGENTA}{original_file_name} was uploaded from camera and '
             f'it name on hdd must be {my_date_format + original_file_name}{Fore.RESET}')
-        original_file_name = my_date_format + original_file_name
-    return original_file_name
+
+        # меняю имя загруженного файла на мой стандарт переименования
+        uploaded_images_dict[photo_id][0] = my_date_format + original_file_name
+
+    return uploaded_images_dict
 
 
 def find_all_uploaded_images(page_link: str, path: str):
