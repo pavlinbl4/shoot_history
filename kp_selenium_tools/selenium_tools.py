@@ -6,7 +6,7 @@ def open_page(page_link, browser):
     browser.get(page_link)
 
 
-def work_to_history(driver):
+def extract_data_from_page(driver):
     driver.find_element(By.ID, 'ctl00_MainContent_ShootInfoForm_FullShootNumber').click()
     driver.find_element(By.CLASS_NAME, 'history-header').click()
     first_link = driver.current_url
