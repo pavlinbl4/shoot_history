@@ -1,5 +1,4 @@
 from pathlib import Path
-from loguru import logger
 
 import openpyxl
 from openpyxl import load_workbook
@@ -12,23 +11,20 @@ def write_rename_voc(path_to_file, image_info, shoot_id):
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = "sheet_name"
-        # set_column_widths(ws, columns_header_names)
-        wb.save(path_to_file)
+        # wb.save(path_to_file)
 
     wb = load_workbook(path_to_file)
     ws = wb.create_sheet(shoot_id)
     ws.column_dimensions['A'].width = 18  # задаю ширину колонки
-    ws.column_dimensions['B'].width = 18  # задаю шрину колонки
-    ws.column_dimensions['C'].width = 10  # задаю шрину колонки
-    ws.column_dimensions['D'].width = 70  # задаю шрину колонки
+    ws.column_dimensions['B'].width = 18  # задаю ширину колонки
+    ws.column_dimensions['C'].width = 10  # задаю ширину колонки
+    ws.column_dimensions['D'].width = 70  # задаю ширину колонки
     ws.cell(row=1, column=1).value = "KSP name"
     ws.cell(row=1, column=2).value = "original file name"
     ws.cell(row=1, column=3).value = "published"
     ws.cell(row=1, column=4).value = "caption"
     last_line = ws.max_row
-    logger.info( f'{image_info = }')
     for k in image_info:
-        logger.info(f'{k = }')
         last_line += 1
         ws.cell(row=last_line, column=1).value = k
         ws.cell(row=last_line, column=2).value = image_info[k][0]
