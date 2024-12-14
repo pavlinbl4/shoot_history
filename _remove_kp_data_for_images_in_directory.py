@@ -1,6 +1,6 @@
 from kp_selenium_tools.tk_tools import select_folder_via_gui
-from shoot_history.exif_job import clear_image_metadata_from_kp_info
-from shoot_history.find_file_hdd import action_with_image_files_in_directory
+from exif_job import clear_image_metadata_from_kp_info
+from find_file_hdd import action_with_image_files_in_directory
 
 
 def main():
