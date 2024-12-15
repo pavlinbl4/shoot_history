@@ -19,7 +19,8 @@ def main():
     shoot_id = clipboard_or_input()
 
     # путь к папке с изображениями съемки
-    path_to_images_folder = select_folder_via_gui(f'{Path().home()}/Pictures/2024')
+    # path_to_images_folder = select_folder_via_gui(f'{Path().home()}/Pictures/2024')
+    path_to_images_folder = Path().home() /'Pictures'/'2024'
 
     # инициализирую драйвер и авторизуюсь на сайте
     driver = AuthorizationHandler().authorize()
