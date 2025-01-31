@@ -7,7 +7,6 @@ from kp_selenium_tools.make_page_link import make_page_link
 from kp_selenium_tools.save_page_html import save_html_page, read_html
 from kp_selenium_tools.selenium_tools import open_page, extract_data_from_page, end_selenium
 from kp_selenium_tools.tk_tools import select_folder_via_gui
-from kp_selenium_tools.write_xlsx import write_rename_voc
 from mark_downloaded_from_kp_images_if_exist.check_image_on_site import find_image
 from scrap_html import find_all_uploaded_images, find_file_on_hdd
 
@@ -20,8 +19,7 @@ def main():
     shoot_id = clipboard_or_input()
 
     # путь к папке с изображениями съемки
-    # path_to_images_folder = select_folder_via_gui(f'{Path().home()}/Pictures/2024')
-    path_to_images_folder = Path().home() /'Pictures'/'2024'
+    path_to_images_folder = select_folder_via_gui(f'{Path().home()}/Pictures/2024')
 
     # инициализирую драйвер и авторизуюсь на сайте
     driver = AuthorizationHandler().authorize()
@@ -56,7 +54,7 @@ def main():
         # нахожу добавленные снимки на hdd
         find_file_on_hdd(uploaded_images_dict, path_to_images_folder, photo_id, cleaned_image_caption)
 
-    write_rename_voc(path_to_file, uploaded_images_dict, shoot_id)
+    # write_rename_voc(path_to_file, uploaded_images_dict, shoot_id)
 
     end_selenium(driver)
 
