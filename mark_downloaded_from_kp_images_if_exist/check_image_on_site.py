@@ -3,6 +3,8 @@ from selenium.common import NoSuchElementException
 from kp_selenium_tools.authorization import AuthorizationHandler
 from kp_selenium_tools.selenium_tools import end_selenium
 
+from kp_selenium_tools.authorization import AuthorizationHandler
+
 '''
 браузер должен быть запущен, чтоб не проходить авторизацию для каждого снимка заново
 скрипт вводит photo_id  в поле поиска, если снимок найден возвращает True, если нет, то False
@@ -38,11 +40,3 @@ def find_image(image_id, driver):
             return False
     except NoSuchElementException as e:
         print(e)
-
-
-if __name__ == '__main__':
-    _driver = AuthorizationHandler().authorize()
-
-    print(find_image('KSP_018323_00051_1', _driver))
-
-    end_selenium(_driver)

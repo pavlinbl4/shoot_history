@@ -1,4 +1,5 @@
 from pathlib import Path
+from loguru import logger
 
 from kp_selenium_tools.authorization import AuthorizationHandler
 from kp_selenium_tools.choose_input import clipboard_or_input
@@ -44,6 +45,8 @@ def main():
     driver.get('https://image.kommersant.ru/photo/archive')
     for photo_id in added_photo_id_list:
         image_caption = find_image(photo_id, driver)
+        logger.info(image_caption)
+
 
         # убираю переносы так как exiftool дает ошибку с ними
         cleaned_image_caption = image_caption.replace("\n", "").replace("\r", "")

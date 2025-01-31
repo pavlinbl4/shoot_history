@@ -14,14 +14,14 @@ def example_function_to_work_with_files(path):
     # logger.info(path)
     photo_id = Path(path).stem[:-3]
     logger.info(photo_id)
-    time.sleep(randint(1, 15))
+    time.sleep(randint(1, 10))
     # logger.info(find_image(photo_id))
     if find_image(photo_id, driver):
         change_color_class(path, photo_id, 'Red')
         logger.info(f'set red color to image {photo_id}')
     else:
         change_color_class(path, photo_id, 'Yellow')
-        clear_image_metadata_from_kp_info(path)
+        logger.info(f'set red color to image {photo_id}')
 
 
 def main():

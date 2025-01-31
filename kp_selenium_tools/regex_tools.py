@@ -18,7 +18,6 @@ def get_file_name_no_extension(file_name: str):
         return file_name_no_extension[0]
 
 
-
 def extract_only_words(text_string):
     if type(text_string) is list:
         text_string = ''.join(text_string)
@@ -32,11 +31,15 @@ def extract_words_no_digits(text_string):
     pattern = r'[А-Яа-яA-Za-z]+\-*[А-Яа-яA-Za-z]+'
     return re.findall(pattern, text_string)
 
+
 def modify_caption(image_metadata):
-    caption = image_metadata['XMP:Description'].replace('\n', ' ')
-    pattern = r'(?<=RU ).+(?= Фото:)'
-    if len(re.findall(pattern, caption)) != 0:
-        image_metadata['XMP:Description'] = re.findall(pattern, caption)[0]
+    try:
+        caption = image_metadata['XMP:Description'].replace('\n', ' ')
+        pattern = r'(?<=RU ).+(?= Фото:)'
+        if len(re.findall(pattern, caption)) != 0:
+            image_metadata['XMP:Description'] = re.findall(pattern, caption)[0]
+    except KeyError as e:
+        print(e)
     return image_metadata
 
 
@@ -114,5 +117,4 @@ if __name__ == '__main__':
     assert get_file_name_no_extension('KSP_017547_00011_1h.jpg') == 'KSP_017547_00011_1h'
     assert get_file_extension('2023-02-28_20-23-08_report.pdf') == 'pdf'
     assert get_file_extension('.DS_store') == 'DS_store'
-    assert get_file_extension('20231006EPAV2441.ORF.dop')  == 'dop'
-
+    assert get_file_extension('20231006EPAV2441.ORF.dop') == 'dop'

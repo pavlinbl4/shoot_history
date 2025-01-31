@@ -46,11 +46,3 @@ def write_rename_voc(path_to_file, image_info, shoot_id):
 
     # Сохраняем изменения
     wb.save(path_to_file)
-
-
-if __name__ == '__main__':
-    write_rename_voc(
-        # "../tests/test_files/shoot_story.xlsx",
-        '/Users/evgeniy/Documents/Kommersant/shoot_rename/shoot_story.xlsx',
-        {'k':"image_info"},
-        "KSP_018281")
