@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 from colorama import Fore
 from loguru import logger
 
-from exif_job import change_color_class
-from find_file_hdd import find_no_ext
+from utils.exif_job import change_color_class
+from utils.find_file_hdd import find_no_ext
 from kp_selenium_tools.save_info_in_csv import write_lost_files_info
 
 
@@ -101,9 +101,3 @@ def find_all_uploaded_images(page_link: str, path: str):
     return added_photo_id_list, uploaded_images_dict  # возвращает словарь переименованных снимков -  {photo_id:[uploaded_file_name]}
 
 
-if __name__ == '__main__':
-    with open('/Users/evgeniy/Documents/Kommersant/source_page.html', 'r') as html_file:
-        page_link_ex = html_file.read()
-
-    print(find_all_uploaded_images(page_link=page_link_ex,
-                                   path='/Users/evgeniy/Pictures/2024'))

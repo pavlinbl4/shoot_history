@@ -7,8 +7,8 @@ from kp_selenium_tools.make_page_link import make_page_link
 from kp_selenium_tools.save_page_html import save_html_page, read_html
 from kp_selenium_tools.selenium_tools import open_page, extract_data_from_page, end_selenium
 from kp_selenium_tools.tk_tools import select_folder_via_gui
-from mark_downloaded_from_kp_images_if_exist.check_image_on_site import find_image
-from scrap_html import find_all_uploaded_images, find_file_on_hdd
+from utils.check_image_on_site import find_image
+from utils.scrap_html import find_all_uploaded_images, find_file_on_hdd
 
 
 def main():
@@ -44,7 +44,6 @@ def main():
     for photo_id in added_photo_id_list:
         image_caption = find_image(photo_id, driver)
         logger.info(image_caption)
-
 
         # убираю переносы так как exiftool дает ошибку с ними
         cleaned_image_caption = image_caption.replace("\n", "").replace("\r", "")
