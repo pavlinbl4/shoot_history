@@ -31,7 +31,9 @@ def main():
     open_page(page_link, driver)
 
     # получаю данные со страницы истории
-    full_history_page_source = extract_data_from_page(driver)
+    full_history_page_source, inner_id = extract_data_from_page(driver)
+
+    # из  ссылке https://image.kommersant.ru/photo/archive/adm/shoot_read.asp?shootID=443182 можно получить дату съемки если она указана правильно в заявке
 
     # временно сохраняю страницу
     save_html_page(full_history_page_source)
