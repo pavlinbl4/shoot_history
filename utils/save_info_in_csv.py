@@ -1,7 +1,7 @@
 import os
 import csv
 
-from kp_selenium_tools.check_file_exist import create_file_if_not_exists
+from utils.check_file_exist import create_file_if_not_exists
 
 
 def csv_writer(info, columns_name, csv_file_path):

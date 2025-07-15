@@ -4,7 +4,7 @@ from loguru import logger
 
 from utils.exif_job import change_color_class
 from utils.find_file_hdd import find_no_ext
-from kp_selenium_tools.save_info_in_csv import write_lost_files_info
+from utils.save_info_in_csv import write_lost_files_info
 
 
 logger.disable('__main__')

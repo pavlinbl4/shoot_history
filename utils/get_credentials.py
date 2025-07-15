@@ -11,4 +11,4 @@ class Credentials:
         self.first_login = os.getenv('FIRST_LOGIN')
         self.kp_login = os.getenv('KP_LOGIN')
         self.kp_password = os.getenv('KP_PASSWORD')
-        self.rdk_login = os.getenv('RDK_LOGING')
+

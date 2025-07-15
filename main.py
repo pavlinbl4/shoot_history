@@ -1,12 +1,12 @@
 from pathlib import Path
 from loguru import logger
 
-from kp_selenium_tools.authorization import AuthorizationHandler
-from kp_selenium_tools.choose_input import clipboard_or_input
-from kp_selenium_tools.make_page_link import make_page_link
-from kp_selenium_tools.save_page_html import save_html_page, read_html
-from kp_selenium_tools.selenium_tools import open_page, extract_data_from_page, end_selenium
-from kp_selenium_tools.tk_tools import select_folder_via_gui
+from utils.authorization import AuthorizationHandler
+from utils.choose_input import clipboard_or_input
+from utils.make_page_link import make_page_link
+from utils.save_page_html import save_html_page, read_html
+from utils.selenium_tools import open_page, extract_data_from_page, end_selenium
+from utils.tk_tools import select_folder_via_gui
 from utils.check_image_on_site import find_image
 from utils.scrap_html import find_all_uploaded_images, find_file_on_hdd
 

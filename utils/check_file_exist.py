@@ -1,7 +1,7 @@
 import os
 import logging
 
-from kp_selenium_tools.create_subfolder import create_directory
+from utils.create_subfolder import create_directory
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +23,4 @@ def create_file_if_not_exists(folder, file_name):
     return file_path
 
 
-if __name__ == '__main__':
-    created_file = create_file_if_not_exists('Kommersant/shoot_rename', 'test_file.txt')
-    print(created_file)
+

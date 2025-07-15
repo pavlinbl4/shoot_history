@@ -3,7 +3,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 
 from utils.get_credentials import Credentials
-from kp_selenium_tools.crome_options import setting_chrome_options
+from utils.crome_options import setting_chrome_options
 
 
 class AuthorizationHandler:
