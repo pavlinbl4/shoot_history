@@ -28,7 +28,7 @@ def scrap_html(page_link: str):
     # logger.info(len(trs))
     trs_pub = soup.find('table', id='HistoryLogGrid').find('tbody').find_all('tr')
 
-    # получаю дату передачи съемки из последней строки таблицы
+    # получаю дату передачи съемки из последней строки таблицы  - это дата создания съемки, а не самой съемки !!!! - приводит к ошибки в имени файла
     komm_dates = soup.find_all('tr', class_="row-alternating")
     komm_date = komm_dates[-1].find('td', class_="date-col").text[:10].split(
         '.')
