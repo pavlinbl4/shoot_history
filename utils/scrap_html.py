@@ -29,13 +29,13 @@ def scrap_html(page_link: str):
     trs_pub = soup.find('table', id='HistoryLogGrid').find('tbody').find_all('tr')
 
     # получаю дату передачи съемки из последней строки таблицы  - это дата создания съемки, а не самой съемки !!!! - приводит к ошибки в имени файла
-    komm_dates = soup.find_all('tr', class_="row-alternating")
-    komm_date = komm_dates[-1].find('td', class_="date-col").text[:10].split(
-        '.')
-
-    my_date_format: str = komm_date[2] + komm_date[1] + komm_date[0]
-    print(f'{my_date_format = }')
-    return my_date_format, trs, trs_pub
+    # komm_dates = soup.find_all('tr', class_="row-alternating")
+    # komm_date = komm_dates[-1].find('td', class_="date-col").text[:10].split(
+    #     '.')
+    #
+    # my_date_format: str = komm_date[2] + komm_date[1] + komm_date[0]
+    # print(f'{my_date_format = }')
+    return  trs, trs_pub
 
 
 # add information to dict about added images - 'KSP_018323_00039': ['20241210PEV_1903', 'ADDED']
@@ -83,9 +83,9 @@ def check_original_file_name(uploaded_images_dict, photo_id: str,
     return uploaded_images_dict
 
 
-def find_all_uploaded_images(page_link: str, path: str):
+def find_all_uploaded_images(page_link: str, path: str, my_date_format:str):
     # get data from html
-    my_date_format, trs, trs_pub = scrap_html(page_link)
+    trs, trs_pub = scrap_html(page_link)
 
     # create dict with KP and uploaded filenames dict {photo_id:[uploaded_file_name]}
     uploaded_images_dict = {}

@@ -15,6 +15,4 @@ def select_folder_via_gui(initial_dir):
         root.destroy()
 
 
-if __name__ == '__main__':
-    # display_info("NO KEYWORDS FOR WORK")
-    select_folder_via_gui('/Volumes/big4photo-4/EDITED_JPEG_ARCHIV/Downloaded_from_fotoagency')
+
