@@ -1,9 +1,10 @@
-
 import os
-import subprocess
-
+import stat
 import exiftool
 from loguru import logger
+import time
+import shutil
+import subprocess
 
 
 def color_to_rating(color):
@@ -11,49 +12,61 @@ def color_to_rating(color):
     return mapping.get(color, 0)
 
 
+def wait_for_usb_disk(volume_path, timeout=10):
+    """Ожидает появления USB-диска в системе"""
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        if os.path.exists(volume_path):
+            return True
+        time.sleep(1)
+    return False
+
+
+def safe_file_operation(path_to_file, operation, max_retries=3, delay=1):
+    """Повторяет операцию при возникновении ошибок"""
+    for attempt in range(max_retries):
+        try:
+            return operation(path_to_file)
+        except (FileNotFoundError, PermissionError, OSError) as e:
+            if attempt == max_retries - 1:
+                raise
+            logger.warning(f"Attempt {attempt + 1} failed: {e}. Retrying in {delay} sec...")
+            time.sleep(delay)
+
+
 def change_color_class(path_to_file, photo_id, image_caption, color):
-    # Нормализуем путь: заменяем двойные пробелы на одинарные
-    # path_to_file = path_to_file.replace("  ", " ")
-    # logger.info(f'Normalized path: {path_to_file}')
-    logger.info(f'{photo_id = }')
-    logger.info(f'{image_caption = }')
+    # Получаем абсолютный путь с разрешением символических ссылок
+    path_to_file = os.path.realpath(path_to_file)
+    logger.info(f'Absolute real path: {path_to_file}')
 
-    # Проверяем существование файла
-    if not os.path.exists(path_to_file):
-        logger.error(f"File does not exist: {path_to_file}")
+    # Извлекаем путь к точке монтирования
+    volume_path = os.path.join('/', *path_to_file.split(os.sep)[:3])
+
+    # Ожидаем появление USB-диска
+    if not wait_for_usb_disk(volume_path):
+        logger.error(f"USB disk not found at {volume_path}")
         return
 
-    # 1. Удаляем расширенные атрибуты macOS (если применимо)
+    # Проверяем доступность файла с повторными попытками
     try:
-        # Проверяем, что файловая система поддерживает xattr
-        if os.path.ismount('/Volumes/Backup_2025_photo'):
-            subprocess.run(['xattr', '-c', path_to_file], check=True)
-            logger.info("Extended attributes removed")
+        safe_file_operation(path_to_file, lambda x: None)
     except Exception as e:
-        logger.warning(f"xattr warning: {str(e)}")
-
-    # 2. Устанавливаем временные права на запись
-    try:
-        os.chmod(path_to_file, 0o766)  # rwxrw-rw-
-        logger.info("Permissions updated for write access")
-    except Exception as e:
-        logger.error(f"Permission change error: {e}")
+        logger.error(f"File inaccessible: {e}")
         return
 
-    # 3. Записываем метаданные с правильным экранированием
+    # Создаем временную копию файла на внутреннем диске
+    temp_dir = os.path.join(os.path.expanduser('~'), 'temp_exif_edit')
+    os.makedirs(temp_dir, exist_ok=True)
+    temp_path = os.path.join(temp_dir, os.path.basename(path_to_file))
+
     try:
+        # Копируем файл на внутренний диск
+        safe_file_operation(path_to_file, lambda src: shutil.copy2(src, temp_path))
+
+        # Работаем с локальной копией
         with exiftool.ExifToolHelper() as et:
-            # Формируем параметры с экранированием пробелов
-            params = [
-                "-P",
-                "-overwrite_original",
-                "-E",
-                "-ec",
-                "-charset", "iptc=UTF-8"
-            ]
-
             et.set_tags(
-                [path_to_file],
+                [temp_path],
                 tags={
                     "XMP:Title": photo_id,
                     "IPTC:ObjectName": photo_id,
@@ -64,19 +77,27 @@ def change_color_class(path_to_file, photo_id, image_caption, color):
                     "XMP:Rating": color_to_rating(color),
                     "XMP:ColorLabel": color
                 },
-                params=params
+                params=[
+                    "-P",
+                    "-overwrite_original",
+                    "-E",
+                    "-ec",
+                    "-charset", "iptc=UTF-8"
+                ]
             )
-        logger.success("Metadata updated successfully")
-    except Exception as e:
-        logger.error(f"ExifTool error: {e}")
-        return
 
-    # 4. Восстанавливаем исходные права
-    try:
-        os.chmod(path_to_file, 0o706)  # rwx---rw-
-        logger.info("Original permissions restored")
+        # Копируем измененный файл обратно на USB
+        safe_file_operation(temp_path, lambda src: shutil.copy2(src, path_to_file))
+
+        logger.success("Metadata updated successfully on USB drive")
     except Exception as e:
-        logger.error(f"Permission restore error: {e}")
+        logger.error(f"Operation failed: {e}")
+    finally:
+        # Удаляем временную копию
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+        if os.path.exists(temp_dir):
+            os.rmdir(temp_dir)
 
 
 if __name__ == '__main__':
