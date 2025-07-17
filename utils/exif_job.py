@@ -13,8 +13,8 @@ def color_to_rating(color):
 
 def change_color_class(path_to_file, photo_id, image_caption, color):
     # Нормализуем путь: заменяем двойные пробелы на одинарные
-    path_to_file = path_to_file.replace("  ", " ")
-    logger.info(f'Normalized path: {path_to_file}')
+    # path_to_file = path_to_file.replace("  ", " ")
+    # logger.info(f'Normalized path: {path_to_file}')
     logger.info(f'{photo_id = }')
     logger.info(f'{image_caption = }')
 
@@ -81,11 +81,11 @@ def change_color_class(path_to_file, photo_id, image_caption, color):
 
 if __name__ == '__main__':
     # Используем сырую строку и явно задаем путь
-    raw_path = r'/Volumes/Backup_2025_photo/2025_originals/05_May/20250519_Юридический  форум/20250519PEV_3721.NEF'
+    raw_path = r'/Volumes/big4photo-2/2025/20250519_Юридический форум/20250519PEV_2976.NEF'
 
     change_color_class(
         raw_path,
-        'KMO_204282_00034',
-        '18.06.2025 Россия, Санкт-Петербург  XXVIII Петербургский международный экономический форум (ПМЭФ) 2025 в конгрессно-выставочном центре "Экспофорум". Фигура робота-пчелы на стенде Башкортостана.',
+        'KSP_018418_00001',
+        '19.05.2025 Россия, Санкт-Петербург  XIII Петербургский международный юридический форум (ПМЮФ) в конгрессно-выставочном центре (КВЦ) "Экспофорум"',
         "Red"
     )
