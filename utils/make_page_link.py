@@ -9,3 +9,8 @@ def make_history_link(inner_id:str):
 
 def get_inner_id(shoot_history_link:str):
     return shoot_history_link.split('=')[1]
+
+
+if __name__ == '__main__':
+    print(make_history_link('443233'))
+

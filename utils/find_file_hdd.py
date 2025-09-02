@@ -1,15 +1,28 @@
-import logging
 import os
 
-from utils.regex_tools import get_file_extension, get_file_name_no_extension
 
+def find_no_ext(file_name_no_extension: str, path: str) -> list:
+    """
+    Find files with the given name (without extension) in the specified path.
+    Only checks files with extensions: dng, nef, orf, jpg, jpeg.
 
-def find_no_ext(file_name_no_extension: str, path: str):  # this will match a file_name
+    Args:
+        file_name_no_extension: File name without extension to search for
+        path: Directory path to search in
+
+    Returns:
+        List of full paths to matching files
+    """
     result = []
-    for root, files in os.walk(path):
-        for file in [elem for elem in files if elem.split('.')[-1].lower() in ('dng', 'nef', 'orf', 'jpg', 'jpeg')]:
-            if get_file_name_no_extension(file) == file_name_no_extension:
+    valid_extensions = {'dng', 'nef', 'orf', 'jpg', 'jpeg'}
+
+    for root, _, files in os.walk(path):
+        for file in files:
+            # Split filename and extension
+            name, ext = os.path.splitext(file)
+            ext = ext[1:].lower()  # Remove dot and convert to lowercase
+
+            if ext in valid_extensions and name == file_name_no_extension:
                 result.append(os.path.join(root, file))
-    return result  # возвращает список с путем к оригинальному файлу
 
-
+    return result

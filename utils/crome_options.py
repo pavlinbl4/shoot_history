@@ -18,7 +18,7 @@ def setting_chrome_options():
     chrome_options.add_experimental_option("prefs", preferences)
     # chrome_options.add_argument("webdriver.chrome.driver=chromedriver")
     # chrome_options.add_experimental_option('detach', True)
-    # chrome_options.add_argument("--headless")  # фоновый режим
+    chrome_options.add_argument("--headless")  # фоновый режим
     # chrome_options.add_argument("--ignore-certificate-errors")  # игнорирует ошибки сертификата SSL
     # chrome_options.add_argument("--disable-cache")  # отключает кэширование в браузере
     # chrome_options.add_argument("--start-maximized")

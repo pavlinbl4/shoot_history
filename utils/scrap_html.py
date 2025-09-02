@@ -6,19 +6,21 @@ from utils.exif_job import change_color_class
 from utils.find_file_hdd import find_no_ext
 from utils.save_info_in_csv import write_lost_files_info
 
-
-logger.disable('__main__')
+# logger.disable('__main__')
 
 
 def find_file_on_hdd(uploaded_images_dict, path_to_images_folder, photo_id, image_caption):
     original_file_name = uploaded_images_dict[photo_id][0]
+    logger.debug(f'original file name: {original_file_name}')
+
     way_to_file = find_no_ext(original_file_name, path_to_images_folder)
+    logger.debug(f'way to file name: {way_to_file}')
     # if file wasn't found
     if len(way_to_file) > 0:
         change_color_class(way_to_file[0], photo_id, image_caption, color='Red')
 
     else:
-        print(f"{Fore.RED} I don't find {original_file_name} in {path_to_images_folder}{Fore.RESET}")
+        logger.info(f"{Fore.RED} I don't find {original_file_name} in {path_to_images_folder}{Fore.RESET}")
         write_lost_files_info(original_file_name, photo_id)
 
 
@@ -28,14 +30,7 @@ def scrap_html(page_link: str):
     # logger.info(len(trs))
     trs_pub = soup.find('table', id='HistoryLogGrid').find('tbody').find_all('tr')
 
-    # получаю дату передачи съемки из последней строки таблицы  - это дата создания съемки, а не самой съемки !!!! - приводит к ошибки в имени файла
-    # komm_dates = soup.find_all('tr', class_="row-alternating")
-    # komm_date = komm_dates[-1].find('td', class_="date-col").text[:10].split(
-    #     '.')
-    #
-    # my_date_format: str = komm_date[2] + komm_date[1] + komm_date[0]
-    # print(f'{my_date_format = }')
-    return  trs, trs_pub
+    return trs, trs_pub
 
 
 # add information to dict about added images - 'KSP_018323_00039': ['20241210PEV_1903', 'ADDED']
@@ -49,21 +44,19 @@ def find_added_to_kp_images(trs_pub, uploaded_images_dict, my_date_format, path)
         xxx = trs_pub[i].find(class_="user-col").find_next('td').text
         if 'Добавлен:' in xxx:
             photo_id = trs_pub[i].find(class_="user-col").find_next('td').text[10:-2]  # id added image
-            # logger.info(f'{photo_id = }')
+            logger.info(f'{photo_id = }')
 
             # проверяю - файл переименован по моим правилам или отправлен с камеры,
             # если отправлен с камеры возвращается в словаре меняю имя загруженного файла
             uploaded_images_dict = check_original_file_name(uploaded_images_dict, photo_id,
-                                                          my_date_format)  # file name no extension
+                                                            my_date_format)  # file name no extension
 
-            print(f"for file {photo_id} original filename is  {uploaded_images_dict[photo_id][0]}")
+            logger.debug(f"for file {photo_id} original filename is  {uploaded_images_dict[photo_id][0]}")
 
             uploaded_images_dict[photo_id].append("ADDED")
             added_photo_id_list.append(photo_id)
     logger.info(f'{added_photo_id_list = }')
     logger.info(f'Добавлено в архив {len(added_photo_id_list)} снимков')
-
-
 
     return added_photo_id_list
 
@@ -73,7 +66,7 @@ def check_original_file_name(uploaded_images_dict, photo_id: str,
     # проверяю, был ли файл переименован по моим правилам или отправлен сразу с камеры
     original_file_name = uploaded_images_dict[photo_id][0]
     if original_file_name.startswith("E") or original_file_name.startswith("P"):
-        print(
+        logger.info(
             f'{Fore.MAGENTA}{original_file_name} was uploaded from camera and '
             f'it name on hdd must be {my_date_format + original_file_name}{Fore.RESET}')
 
@@ -83,7 +76,7 @@ def check_original_file_name(uploaded_images_dict, photo_id: str,
     return uploaded_images_dict
 
 
-def find_all_uploaded_images(page_link: str, path: str, my_date_format:str):
+def find_all_uploaded_images(page_link: str, path: str, my_date_format: str):
     # get data from html
     trs, trs_pub = scrap_html(page_link)
 
@@ -99,5 +92,3 @@ def find_all_uploaded_images(page_link: str, path: str, my_date_format:str):
     added_photo_id_list = find_added_to_kp_images(trs_pub, uploaded_images_dict, my_date_format, path)
 
     return added_photo_id_list, uploaded_images_dict  # возвращает словарь переименованных снимков -  {photo_id:[uploaded_file_name]}
-
-
